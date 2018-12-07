@@ -1,5 +1,10 @@
 <template>
-  <div class="dropdown">
+  <div class="container-fluid login-box">
+    <div class="row">
+      <div class="col-12">
+        <h1>Hantera sakområden</h1>
+      </div>
+    </div>
     <div class="row">
       <div class="col">
         <label>Användarnamn:</label>
@@ -70,5 +75,8 @@ export default {
 }
 .typeahead-elem {
   padding-left: 10px;
+}
+.login-box {
+  width: 450px;
 }
 </style>
