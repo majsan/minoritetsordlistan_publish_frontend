@@ -26,12 +26,12 @@
         <div class="col-auto">
           <div class="row subtype-row" v-for="subtype in published">
             <div class="col-12">
-              <button class="btn btn-danger">Avpublicera</button>
+              <button class="btn btn-danger" @click="unpublish(subtype)">Avpublicera</button>
             </div>
           </div>
           <div class="row subtype-row" v-for="subtype in unpublished">
             <div class="col-12">
-              <button class="btn btn-primary">Publicera</button>
+              <button class="btn btn-primary" @click="publish(subtype)">Publicera</button>
             </div>
           </div>
         </div>
@@ -76,6 +76,22 @@ export default {
   methods: {
     logout: function () {
       this.$emit('logout')
+    },
+    publish (subtype) {
+      backend.publish(subtype).then((response) => {
+        if (response) {
+          published.push(subtype)
+          unpublished.splice(published.indexOf(subtype), 1)
+        }
+      })
+    },
+    unpublish (subtype) {
+      backend.unpublish(subtype).then((response) => {
+        if (response) {
+          unpublished.push(subtype)
+          published.splice(published.indexOf(subtype), 1)
+        }
+      })
     }
   },
   created () {

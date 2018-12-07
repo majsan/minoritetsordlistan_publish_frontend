@@ -42,5 +42,20 @@ export default {
   },
   getSubtypes () {
     return helper(instance.get('/subtypes?unpublished=true'))
+  },
+  publish (subtype) {
+    return instance.get('/publish/' + subtype).then(function (response) {
+      console.log("OK!!", response.data)
+    }).catch(function (error) {
+      console.log(error)
+    })
+  },
+  unpublish (subtype) {
+    return instance.get('/unpublish/' + subtype).then(function (response) {
+      console.log("OK!!", response.data)
+      return response.data
+    }).catch(function (error) {
+      console.log(error)
+    })
   }
 }
