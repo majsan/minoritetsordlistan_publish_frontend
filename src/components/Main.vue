@@ -36,27 +36,6 @@
           </div>
         </div>
       </div>
-      
-      <!-- <div class="row">
-        <div class="col-12">
-          <div class="row align-items-center subtype-row"  v-for="subtype in published">
-            <div class="col-auto">
-              {{subtype}}
-            </div>
-            <div class="col-auto">
-              <button class="btn btn-primary">Avpublicera</button>
-            </div>
-          </div>
-          <div class="row align-items-center subtype-row"  v-for="subtype in unpublished">
-            <div class="col-auto">
-              {{subtype}}
-            </div>
-            <div class="col-auto">
-              <button class="btn btn-primary">Publicera</button>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -80,16 +59,20 @@ export default {
     publish (subtype) {
       backend.publish(subtype).then((response) => {
         if (response) {
-          published.push(subtype)
-          unpublished.splice(published.indexOf(subtype), 1)
+          if (this.published.indexOf(subtype) == -1) {
+            this.published.push(subtype)
+            this.unpublished.splice(this.unpublished.indexOf(subtype), 1)
+          }
         }
       })
     },
     unpublish (subtype) {
       backend.unpublish(subtype).then((response) => {
         if (response) {
-          unpublished.push(subtype)
-          published.splice(published.indexOf(subtype), 1)
+          if (this.unpublished.indexOf(subtype) == -1) {
+            this.unpublished.push(subtype)
+            this.published.splice(this.published.indexOf(subtype), 1)
+          }
         }
       })
     }

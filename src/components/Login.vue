@@ -70,12 +70,6 @@ export default {
 </script>
 
 <style scoped>
-.active-typeahead {
-  background-color: lightgrey;
-}
-.typeahead-elem {
-  padding-left: 10px;
-}
 .login-box {
   width: 450px;
 }
