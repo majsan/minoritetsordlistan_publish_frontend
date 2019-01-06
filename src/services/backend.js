@@ -40,18 +40,27 @@ export default {
       return data
     })
   },
-  getSubtypes () {
-    return helper(instance.get('/subtypes?unpublished=true'))
+  getSubtypes (lexicon) {
+    return helper(instance.get('/subtypes', {
+        params: {
+          mode: lexicon,
+          unpublished: true
+        }
+      }))
   },
-  publish (subtype) {
+  publish (lexicon, subtype) {
     return instance.get('/publish/' + subtype).then(function (response) {
       return response.data
     }).catch(function (error) {
       console.log(error)
     })
   },
-  unpublish (subtype) {
-    return instance.get('/unpublish/' + subtype).then(function (response) {
+  unpublish (lexicon, subtype) {
+    return instance.get('/unpublish/' + subtype, {
+        params: {
+          mode: lexicon
+        }
+      }).then(function (response) {
       return response.data
     }).catch(function (error) {
       console.log(error)

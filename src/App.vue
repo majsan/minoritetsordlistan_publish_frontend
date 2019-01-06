@@ -2,7 +2,7 @@
   <div id="app" class="container">
     <NoAccess v-if="user && !access" @logout="logout" />
     <Login v-if="!init && !user" @loginSuccess="loginSuccess" />
-    <Main v-if="access && user" @logout="logout" />
+    <Main v-if="access && user" @logout="logout" :lexicons="lexicons"/>
     <div v-if="init">checking user...</div>
   </div>
 </template>
@@ -26,7 +26,8 @@ export default {
     return {
       user: null,
       init: true,
-      access: false
+      access: false,
+      lexicons: []
     }
   },
   methods: {
@@ -50,16 +51,20 @@ export default {
   watch: {
     user () {
       const user = this.user
+      this.lexicons = []
       if (user &&
           user.authenticated && 
           user.permitted_resources &&
-          user.permitted_resources.lexica &&
-          user.permitted_resources.lexica['term-swefin'] &&
-          user.permitted_resources.lexica['term-swefin'].write) {
-        this.access = true
-      } else {
-        this.access = false
+          user.permitted_resources.lexica) {
+        const lexicons = user.permitted_resources.lexica
+        if (lexicons['term-swefin'] && lexicons['term-swefin'].write) {
+          this.lexicons.push('term-swefin')
+        }
+        if (lexicons['term-sweyid'] && lexicons['term-sweyid'].write) {
+          this.lexicons.push('term-sweyid')
+        }
       }
+      this.access = this.lexicons.length > 0
     }
   }
 }
