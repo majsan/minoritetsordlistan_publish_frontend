@@ -33,6 +33,16 @@
         <a target="_blank" rel="noopener" href="https://ws.spraakbanken.gu.se/user/password">Glömt ditt lösenord?</a>
       </div>
     </div>
+    <div class="row error" v-if="authError">
+      <div class="col">
+        Fel användarnamn eller lösenord
+      </div>
+    </div>
+    <div class="row error" v-if="otherError">
+      <div class="col">
+        Något gick fel. Försök igen.
+      </div>
+    </div>
     <div class="row">
       <div class="col-auto mr-auto"></div>
       <div class="col-auto">
@@ -52,17 +62,25 @@ export default {
     return {
       username: '',
       password: '',
-      rememberLogin: false
+      rememberLogin: false,
+      authError: false,
+      otherError: false
     }
   },
   methods: {
     login: async function () {
       const [loggedIn, user] = await auth.login(this.username, this.password, this.rememberLogin)
-      if(loggedIn) {
+      if(loggedIn && user.authenticated) {
+        this.authError = false
+        this.otherError = false
         this.showLogin = false
         this.username = ''
         this.password = ''
         this.$emit('loginSuccess', user)
+      } else if (loggedIn) {
+        this.authError = true
+      } else {
+        this.otherError = true
       }
     }
   }
@@ -72,5 +90,8 @@ export default {
 <style scoped>
 .login-box {
   width: 450px;
+}
+.error {
+  color: red;
 }
 </style>
