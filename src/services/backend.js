@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'https://ws.spraakbanken.gu.se/ws/tolkordlistor'
+  baseURL: 'https://ws.spraakbanken.gu.se/ws/minoritetsordlistan'
 })
 
 const karpInstance = axios.create({
